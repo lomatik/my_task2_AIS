@@ -1,11 +1,15 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import graphviz
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import linear_model
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
+from sklearn import tree
+from sklearn import preprocessing
+from sklearn.datasets import load_iris
 
 testcsv = pd.read_csv('house-prices-advanced-regression-techniques/test.csv');
 traincsv = pd.read_csv('house-prices-advanced-regression-techniques/train.csv');
@@ -40,5 +44,21 @@ plt.show()
 
 #Second part
 
+x2 = data.drop(['SalePrice', 'Id'], axis=1)
+y2 = np.log(traincsv.SalePrice)
+
+lab_enc = preprocessing.LabelEncoder() #corverting y from continious to multiclass
+y2e = lab_enc.fit_transform(y2)
+
+clf = tree.DecisionTreeClassifier(max_depth=20)
+clf = clf.fit(x2, y2e)
+
+clf.predict(X_test)
+
+clf.predict_proba(X_test)
+tree.plot_tree(clf)
+r = tree.export_text(clf)
+print(r)
 
 
+#third part
